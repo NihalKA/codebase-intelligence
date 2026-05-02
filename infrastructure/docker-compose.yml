@@ -125,6 +125,9 @@ services:
     # Sourcegraph does not publish a 'latest' tag — pin to a specific version.
     # Check https://hub.docker.com/r/sourcegraph/server/tags for newer releases.
     image: sourcegraph/server:6.12.5040
+    # Sourcegraph only publishes amd64 images — on Apple Silicon this runs via
+    # Rosetta 2 emulation. Slower than native but fully functional for dev use.
+    platform: linux/amd64
     container_name: sourcegraph
     restart: always
     networks:
