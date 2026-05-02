@@ -22,7 +22,7 @@
 # tree-sitter core + language grammars for Java and C# (.NET)
 # Parsers use the 0.22+ one-argument Language() API — must not pin to 0.21.x
 # 0.24.x is required when grammar packages are 0.23.5+ (language ABI 15)
-tree-sitter>=0.24.0,<0.25.0
+tree-sitter>=0.25.0,<0.26.0
 tree-sitter-java>=0.23.0,<0.25.0
 tree-sitter-c-sharp>=0.23.0,<0.25.0
 
