@@ -282,12 +282,15 @@ def _search_qdrant(
         without search results.
     """
     try:
-        results = client.search(
+        # client.search() was removed in qdrant-client 1.13 — use query_points() instead.
+        # query_points() returns a QueryResponse; the hits are in .points
+        response = client.query_points(
             collection_name=_COLLECTION_NAME,
-            query_vector=vector,
+            query=vector,
             limit=_TOP_K,
             with_payload=True,
         )
+        results = response.points
     except Exception as exc:
         logger.error("Qdrant search failed on collection '%s': %s", _COLLECTION_NAME, exc)
         raise
