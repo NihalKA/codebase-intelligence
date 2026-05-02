@@ -1,0 +1,18 @@
+{
+	"ulid": "01KP4130MWBZWG60RD7M8V2PA7",
+	"minTime": 1775281862007,
+	"maxTime": 1775282400000,
+	"stats": {
+		"numSamples": 49431,
+		"numFloatSamples": 49431,
+		"numSeries": 16819,
+		"numChunks": 16819
+	},
+	"compaction": {
+		"level": 1,
+		"sources": [
+			"01KP4130MWBZWG60RD7M8V2PA7"
+		]
+	},
+	"version": 1
+}

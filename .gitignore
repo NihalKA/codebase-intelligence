@@ -1,0 +1,29 @@
+# Environment
+.env
+*.env
+
+# Docker volumes (data lives here — do not commit)
+qdrant_data/
+neo4j_data/
+ollama_models/
+minio_data/
+openwebui_data/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+*.egg-info/
+
+# Generated service docs (auto-generated — do not commit)
+docs/services/
+
+# IDE
+.vscode/settings.json
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db

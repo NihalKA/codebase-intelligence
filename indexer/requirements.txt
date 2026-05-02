@@ -1,0 +1,50 @@
+# requirements.txt — Phase 2 indexer dependencies
+#
+# Installs all packages needed by the indexer pipeline:
+#   indexer/parsers/java_parser.py
+#   indexer/parsers/dotnet_parser.py
+#   indexer/clients/sourcegraph_client.py
+#   indexer/writers/qdrant_writer.py
+#   indexer/writers/neo4j_writer.py
+#   indexer/index_repos.py
+#   indexer/index_diff.py
+#
+# LangChain is intentionally excluded — the indexer calls Ollama directly
+# via the ollama library. LangChain is only needed in Phase 3 (the RAG chain).
+#
+# All packages are pinned to minor version (>=X.Y.Z,<NEXT_MAJOR) to ensure
+# reproducible installs while still receiving patch-level security fixes.
+#
+# Install: pip install -r indexer/requirements.txt
+# Requires: Python 3.11+
+
+# ── Parsing ────────────────────────────────────────────────────────────────────
+# tree-sitter core + language grammars for Java and C# (.NET)
+# Parsers use the 0.22+ one-argument Language() API — must not pin to 0.21.x
+tree-sitter>=0.22.0,<0.24.0
+tree-sitter-java>=0.22.0,<0.24.0
+tree-sitter-c-sharp>=0.22.0,<0.24.0
+
+# ── Vector store ───────────────────────────────────────────────────────────────
+# Qdrant Python client — connects to Qdrant on port 6333 (collection: codebase-index)
+qdrant-client>=1.7.0,<2.0.0
+
+# ── Graph database ─────────────────────────────────────────────────────────────
+# Neo4j Python driver — connects via Bolt on port 7687
+neo4j>=5.0.0,<6.0.0
+
+# ── Local LLM ──────────────────────────────────────────────────────────────────
+# Ollama Python client — calls local Ollama on port 11434 (model: deepseek-coder:6.7b)
+# No external AI APIs — all inference stays on this machine
+ollama>=0.1.0,<1.0.0
+
+# ── Sourcegraph client ─────────────────────────────────────────────────────────
+# requests — used by sourcegraph_client.py to call Sourcegraph GraphQL API on port 7080
+# Sourcegraph runs locally (SOURCEGRAPH_URL env var) — no external network calls
+requests>=2.31.0,<3.0.0
+
+# ── Utilities ──────────────────────────────────────────────────────────────────
+# python-dotenv — loads .env file for all connection details (host, port, credentials)
+python-dotenv>=1.0.0,<2.0.0
+# gitpython — used by index_diff.py to detect changed files from git diff
+gitpython>=3.1.0,<4.0.0

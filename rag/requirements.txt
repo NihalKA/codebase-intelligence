@@ -1,0 +1,52 @@
+# requirements.txt — Phase 3 RAG chain and Q&A API dependencies
+#
+# Installs all packages needed by the RAG server:
+#   rag/chain.py       — RAG logic: embed → search Qdrant → query Neo4j → call Ollama
+#   rag/app.py         — FastAPI server: /ask, /health, /stats, /v1/chat/completions
+#   rag/test_queries.py — verification script: runs 4 test queries, prints PASS/FAIL
+#
+# Intentionally separate from indexer/requirements.txt so the RAG server can be
+# installed without tree-sitter, gitpython, or any of the indexer-only packages.
+#
+# All AI inference goes to the local Ollama instance (OLLAMA_HOST env var).
+# No openai, anthropic, cohere, or huggingface-hub dependencies are included —
+# this package list is safe for a zero-egress healthcare environment.
+#
+# All packages pinned to minor version (>=X.Y.Z,<NEXT_MAJOR) to ensure
+# reproducible installs while still receiving patch-level security fixes.
+#
+# Install: pip install -r rag/requirements.txt
+# Requires: Python 3.11+
+
+# ── Web server ─────────────────────────────────────────────────────────────────
+# FastAPI — provides /ask, /health, /stats, /v1/chat/completions endpoints
+fastapi>=0.109.0,<1.0.0
+
+# uvicorn — ASGI server used to run the FastAPI app
+# Run with: uvicorn rag.app:app --host 0.0.0.0 --port 8000
+uvicorn>=0.27.0,<1.0.0
+
+# ── RAG chain ──────────────────────────────────────────────────────────────────
+# langchain + langchain-community provide the chain orchestration primitives.
+# These libraries are used here ONLY to call the local Ollama instance and the
+# local Qdrant collection. No LangChain integration ever contacts an external
+# AI provider — OLLAMA_HOST must always resolve to an on-premise server.
+langchain>=0.1.0,<1.0.0
+langchain-community>=0.0.20,<1.0.0
+
+# ── Vector store ───────────────────────────────────────────────────────────────
+# Qdrant Python client — searches the "codebase-index" collection on port 6333
+qdrant-client>=1.7.0,<2.0.0
+
+# ── Graph database ─────────────────────────────────────────────────────────────
+# Neo4j Python driver — queries Service/Queue/Endpoint/Database nodes on port 7687
+neo4j>=5.0.0,<6.0.0
+
+# ── Local LLM ──────────────────────────────────────────────────────────────────
+# Ollama Python client — calls local Ollama on port 11434 (model: deepseek-coder:6.7b)
+# All inference stays on this machine. No external AI APIs are used.
+ollama>=0.1.0,<1.0.0
+
+# ── Utilities ──────────────────────────────────────────────────────────────────
+# python-dotenv — loads .env file for OLLAMA_HOST, QDRANT_HOST, NEO4J_URI, etc.
+python-dotenv>=1.0.0,<2.0.0

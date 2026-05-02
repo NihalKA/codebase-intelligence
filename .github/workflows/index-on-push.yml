@@ -1,0 +1,165 @@
+# index-on-push.yml
+# -------------------------------------------------------------------
+# Incremental re-indexing workflow for the Codebase Intelligence platform.
+#
+# DEPLOY INSTRUCTIONS — copy this file into each target repo at:
+#   .github/workflows/index-on-push.yml
+#
+# Then set these secrets at GitHub organisation level (Settings → Secrets):
+#   QDRANT_HOST           IP or hostname of the Qdrant server (no port)
+#   QDRANT_PORT           Qdrant HTTP port — 6333
+#   NEO4J_URI             bolt://YOUR_SERVER_IP:7687
+#   NEO4J_USER            neo4j
+#   NEO4J_PASSWORD        Neo4j password
+#   OLLAMA_HOST           http://YOUR_SERVER_IP:11434
+#   SOURCEGRAPH_URL       http://YOUR_SERVER_IP:7080  (optional)
+#   SOURCEGRAPH_TOKEN     Sourcegraph personal token  (optional)
+#   PLATFORM_REPO_TOKEN   Fine-grained PAT with contents:read on the
+#                         codebase-intelligence platform repo
+#
+# OLLAMA_MODEL is not a secret — it is hardcoded to deepseek-coder:6.7b
+# as decided in DECISIONS.md.  Change it here only if the model is updated
+# and DECISIONS.md is updated at the same time.
+# -------------------------------------------------------------------
+
+name: Index changed code
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '**.java'
+      - '**.cs'
+
+jobs:
+  index:
+    # Must run on the self-hosted runner inside our network — never ubuntu-latest.
+    # The runner has direct access to Qdrant, Neo4j, and Ollama.
+    # See DECISIONS.md: "self-hosted GitHub Actions runner" requirement.
+    runs-on: self-hosted
+
+    # Safety net: one repo should never take longer than 30 minutes.
+    timeout-minutes: 30
+
+    steps:
+      # -----------------------------------------------------------------
+      # Step 1 — Checkout the target repo
+      # fetch-depth: 2 is required so git diff HEAD~1 HEAD works in Step 2.
+      # -----------------------------------------------------------------
+      - name: Checkout target repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      # -----------------------------------------------------------------
+      # Step 2 — Detect which .java / .cs files changed in this push
+      # Sets two outputs:
+      #   files — space-separated list of changed paths (empty string if none)
+      #   skip  — "true" if no indexable files changed, "false" otherwise
+      # -----------------------------------------------------------------
+      - name: Get changed files
+        id: changed
+        run: |
+          FILES=$(git diff --name-only HEAD~1 HEAD -- '*.java' '*.cs' | tr '\n' ' ')
+          FILES="${FILES%% }"  # trim trailing space
+          echo "files=$FILES" >> $GITHUB_OUTPUT
+          if [ -z "$FILES" ]; then
+            echo "No .java or .cs files changed — skipping indexing"
+            echo "skip=true" >> $GITHUB_OUTPUT
+          else
+            echo "Detected changed files: $FILES"
+            echo "skip=false" >> $GITHUB_OUTPUT
+          fi
+
+      # -----------------------------------------------------------------
+      # Step 3 — Checkout the platform repo so we can run index_diff.py
+      # Checked out into _platform/ to avoid overwriting the target repo.
+      #
+      # TODO: replace YOUR_ORG below with your actual GitHub organisation name.
+      # Example: repository: acme-health/codebase-intelligence
+      # -----------------------------------------------------------------
+      - name: Checkout platform repo
+        if: steps.changed.outputs.skip != 'true'
+        uses: actions/checkout@v4
+        with:
+          repository: YOUR_ORG/codebase-intelligence  # TODO: replace YOUR_ORG
+          path: _platform
+          token: ${{ secrets.PLATFORM_REPO_TOKEN }}
+
+      # -----------------------------------------------------------------
+      # Step 4 — Set up Python 3.11
+      # Matches the Python version used throughout the platform (DECISIONS.md).
+      # -----------------------------------------------------------------
+      - name: Set up Python
+        if: steps.changed.outputs.skip != 'true'
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      # -----------------------------------------------------------------
+      # Step 5 — Install dependencies
+      # Both requirement files are needed:
+      #   indexer/requirements.txt — tree-sitter parsers, qdrant-client, neo4j
+      #   rag/requirements.txt     — ollama, fastapi (imported transitively by writers)
+      # pip --quiet suppresses noise; errors still surface as non-zero exit.
+      # -----------------------------------------------------------------
+      - name: Install dependencies
+        if: steps.changed.outputs.skip != 'true'
+        run: |
+          pip install --quiet \
+            -r _platform/indexer/requirements.txt \
+            -r _platform/rag/requirements.txt
+
+      # -----------------------------------------------------------------
+      # Step 6 — Run the incremental indexer
+      #
+      # Working directory is _platform/ so Python package imports resolve:
+      #   from indexer.parsers.java_parser import ...
+      #   from indexer.writers.qdrant_writer import ...
+      #
+      # REPO_NAME is derived from GITHUB_REPOSITORY ("org/repo" → "repo")
+      # so index_diff.py gets the canonical short name as --name.
+      #
+      # --repo points back at GITHUB_WORKSPACE (the checked-out target repo)
+      # so tree-sitter can open the actual source files.
+      #
+      # All connection details come from secrets — nothing is hardcoded.
+      # OLLAMA_MODEL is the only inline value (not a credential).
+      # -----------------------------------------------------------------
+      - name: Run incremental indexer
+        if: steps.changed.outputs.skip != 'true'
+        env:
+          QDRANT_HOST:       ${{ secrets.QDRANT_HOST }}
+          QDRANT_PORT:       ${{ secrets.QDRANT_PORT }}
+          NEO4J_URI:         ${{ secrets.NEO4J_URI }}
+          NEO4J_USER:        ${{ secrets.NEO4J_USER }}
+          NEO4J_PASSWORD:    ${{ secrets.NEO4J_PASSWORD }}
+          OLLAMA_HOST:       ${{ secrets.OLLAMA_HOST }}
+          OLLAMA_MODEL:      deepseek-coder:6.7b
+          SOURCEGRAPH_URL:   ${{ secrets.SOURCEGRAPH_URL }}
+          SOURCEGRAPH_TOKEN: ${{ secrets.SOURCEGRAPH_TOKEN }}
+        run: |
+          REPO_NAME=$(basename "$GITHUB_REPOSITORY")
+          cd _platform
+          python indexer/index_diff.py \
+            --files ${{ steps.changed.outputs.files }} \
+            --name "$REPO_NAME" \
+            --repo "$GITHUB_WORKSPACE"
+
+      # -----------------------------------------------------------------
+      # Step 7 — Write a readable step summary in GitHub Actions UI
+      # Only runs if the indexer step succeeded (success() is implicit
+      # when no status check function is given, but we add the skip guard).
+      # -----------------------------------------------------------------
+      - name: Write step summary
+        if: steps.changed.outputs.skip != 'true' && success()
+        run: |
+          echo "## Indexing complete" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| Field | Value |" >> $GITHUB_STEP_SUMMARY
+          echo "|-------|-------|" >> $GITHUB_STEP_SUMMARY
+          echo "| **Repo** | \`${{ github.repository }}\` |" >> $GITHUB_STEP_SUMMARY
+          echo "| **Branch** | \`${{ github.ref_name }}\` |" >> $GITHUB_STEP_SUMMARY
+          echo "| **Triggered by** | ${{ github.actor }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| **Commit** | \`${{ github.sha }}\` |" >> $GITHUB_STEP_SUMMARY
+          echo "| **Files indexed** | \`${{ steps.changed.outputs.files }}\` |" >> $GITHUB_STEP_SUMMARY

@@ -1,0 +1,144 @@
+mkdir: can't create directory '/var/opt/sourcegraph/blobstore': File exists
+18:31:06,595 |-INFO in ch.qos.logback.classic.LoggerContext[default] - This is logback-classic version 2.8.0
+18:31:06,607 |-INFO in ch.qos.logback.classic.util.ContextInitializer@2df3b89c - No custom configurators were discovered as a service.
+18:31:06,608 |-INFO in ch.qos.logback.classic.util.ContextInitializer@2df3b89c - Trying to configure with ch.qos.logback.classic.joran.SerializedModelConfigurator
+18:31:06,624 |-INFO in ch.qos.logback.classic.util.ContextInitializer@2df3b89c - Constructed configurator of type class ch.qos.logback.classic.joran.SerializedModelConfigurator
+18:31:06,776 |-INFO in ch.qos.logback.classic.LoggerContext[default] - Could NOT find resource [logback-test.scmo]
+18:31:06,777 |-INFO in ch.qos.logback.classic.LoggerContext[default] - Could NOT find resource [logback.scmo]
+18:31:07,062 |-INFO in ch.qos.logback.classic.util.ContextInitializer@2df3b89c - ch.qos.logback.classic.joran.SerializedModelConfigurator.configure() call lasted 157 milliseconds. ExecutionStatus=INVOKE_NEXT_IF_ANY
+18:31:07,063 |-INFO in ch.qos.logback.classic.util.ContextInitializer@2df3b89c - Trying to configure with ch.qos.logback.classic.util.DefaultJoranConfigurator
+18:31:07,065 |-INFO in ch.qos.logback.classic.util.ContextInitializer@2df3b89c - Constructed configurator of type class ch.qos.logback.classic.util.DefaultJoranConfigurator
+18:31:07,073 |-INFO in ch.qos.logback.classic.LoggerContext[default] - Could NOT find resource [logback-test.xml]
+18:31:07,217 |-INFO in ch.qos.logback.classic.LoggerContext[default] - Found resource [logback.xml] at [jar:file:/opt/s3proxy/s3proxy!/logback.xml]
+18:31:07,439 |-INFO in ch.qos.logback.core.joran.spi.ConfigurationWatchList@23348b5d - URL [jar:file:/opt/s3proxy/s3proxy!/logback.xml] is not of type file
+18:31:08,867 |-INFO in ch.qos.logback.classic.model.processor.ConfigurationModelHandlerFull - Main configuration file URL: jar:file:/opt/s3proxy/s3proxy!/logback.xml
+18:31:08,872 |-INFO in ch.qos.logback.classic.model.processor.ConfigurationModelHandlerFull - FileWatchList= {}
+18:31:08,873 |-INFO in ch.qos.logback.classic.model.processor.ConfigurationModelHandlerFull - URLWatchList= {}
+18:31:08,891 |-INFO in ch.qos.logback.core.model.processor.ModelInterpretationContext@70325e14 - value "STDOUT" substituted for "${LOG_APPENDER:-STDOUT}"
+18:31:08,899 |-INFO in ch.qos.logback.core.model.processor.AppenderModelHandler - Processing appender named [STDOUT]
+18:31:08,900 |-INFO in ch.qos.logback.core.model.processor.AppenderModelHandler - About to instantiate appender of type [ch.qos.logback.core.ConsoleAppender]
+18:31:08,921 |-INFO in ch.qos.logback.core.model.processor.ImplicitModelHandler - Assuming default type [ch.qos.logback.classic.encoder.PatternLayoutEncoder] for [encoder] property
+18:31:09,085 |-INFO in ch.qos.logback.core.model.processor.ModelInterpretationContext@70325e14 - value "info" substituted for "${LOG_LEVEL:-info}"
+18:31:09,085 |-INFO in ch.qos.logback.core.ConsoleAppender[STDOUT] - NOTE: Writing to the console can be slow. Try to avoid logging to the 
+18:31:09,085 |-INFO in ch.qos.logback.core.ConsoleAppender[STDOUT] - console in production environments, especially in high volume systems.
+18:31:09,085 |-INFO in ch.qos.logback.core.ConsoleAppender[STDOUT] - See also https://logback.qos.ch/codes.html#slowConsole
+18:31:09,089 |-WARN in ch.qos.logback.core.model.processor.AppenderModelHandler - Appender named [CONTAINER] not referenced. Skipping further processing.
+18:31:09,091 |-INFO in ch.qos.logback.core.model.processor.ModelInterpretationContext@70325e14 - value "info" substituted for "${JETTY_LOG_LEVEL:-info}"
+18:31:09,122 |-INFO in ch.qos.logback.classic.model.processor.LoggerModelHandler - Setting level of logger [org.eclipse.jetty] to INFO
+18:31:09,123 |-INFO in ch.qos.logback.core.model.processor.ModelInterpretationContext@70325e14 - value "info" substituted for "${JETTY_LOG_LEVEL:-info}"
+18:31:09,123 |-INFO in ch.qos.logback.classic.model.processor.LoggerModelHandler - Setting level of logger [org.gaul.shaded.org.eclipse.jetty] to INFO
+18:31:09,123 |-INFO in ch.qos.logback.core.model.processor.ModelInterpretationContext@70325e14 - value "info" substituted for "${LOG_LEVEL:-info}"
+18:31:09,123 |-INFO in ch.qos.logback.classic.model.processor.RootLoggerModelHandler - Setting level of ROOT logger to INFO
+18:31:09,125 |-INFO in ch.qos.logback.core.model.processor.ModelInterpretationContext@70325e14 - value "STDOUT" substituted for "${LOG_APPENDER:-STDOUT}"
+18:31:09,126 |-INFO in ch.qos.logback.core.model.processor.AppenderRefModelHandler - Attaching appender named [STDOUT] to Logger[ROOT]
+18:31:09,127 |-INFO in ch.qos.logback.core.model.processor.DefaultProcessor@37ceb1df - End of configuration.
+18:31:09,130 |-INFO in ch.qos.logback.classic.joran.JoranConfigurator@7c9d8e2 - Registering current configuration as safe fallback point
+18:31:09,130 |-INFO in ch.qos.logback.classic.util.ContextInitializer@2df3b89c - ch.qos.logback.classic.util.DefaultJoranConfigurator.configure() call lasted 2065 milliseconds. ExecutionStatus=DO_NOT_INVOKE_NEXT_IF_ANY
+
+[s3proxy] W 03-30 18:31:16.473 main org.gaul.s3proxy.Main:130 |::] filesystem storage backend deprecated -- please use filesystem-nio2 instead
+[s3proxy] I 03-30 18:31:16.520 main o.g.s.CrossOriginResourceSharing:111 |::] CORS allowed origins: []
+[s3proxy] I 03-30 18:31:16.523 main o.g.s.CrossOriginResourceSharing:112 |::] CORS allowed methods: []
+[s3proxy] I 03-30 18:31:16.523 main o.g.s.CrossOriginResourceSharing:113 |::] CORS allowed headers: []
+[s3proxy] I 03-30 18:31:16.524 main o.g.s.CrossOriginResourceSharing:114 |::] CORS exposed headers: []
+[s3proxy] I 03-30 18:31:16.524 main o.g.s.CrossOriginResourceSharing:115 |::] CORS allow credentials: 
+[s3proxy] I 03-30 18:31:17.985 main o.g.s.o.e.jetty.server.Server:384 |::] jetty-11.0.26; built: 2025-08-14T18:03:14.457Z; git: 7559873b6e46eea7c2c6da2b58327ea2ecf941f4; jvm 11.0.30-internal+0-wolfi-r0
+[s3proxy] I 03-30 18:31:18.412 main o.g.s.o.e.j.s.AbstractConnector:376 |::] Started ServerConnector@4b2d44bc{HTTP/1.1, (http/1.1)}{0.0.0.0:9000}
+[s3proxy] I 03-30 18:31:18.519 main o.g.s.o.e.j.u.s.SslContextFactory:327 |::] x509=X509@255eaa6b(jetty,h=[unknown],a=[],w=[]) for Server@3c5dbdf8[provider=null,keyStore=file:///opt/s3proxy/test-classes/keystore.jks,trustStore=null]
+[s3proxy] I 03-30 18:31:18.655 main o.g.s.o.e.j.s.AbstractConnector:376 |::] Started ServerConnector@3cd206b5{SSL, (ssl, http/1.1)}{0.0.0.0:9443}
+[s3proxy] I 03-30 18:31:18.807 main o.g.s.o.e.jetty.server.Server:439 |::] Started Server@38792286{STARTING}[11.0.26,sto=0] @14793ms
+mkdir: can't create directory '/var/opt/sourcegraph/blobstore': File exists
+05:50:58,789 |-INFO in ch.qos.logback.classic.LoggerContext[default] - This is logback-classic version 2.8.0
+05:50:58,795 |-INFO in ch.qos.logback.classic.util.ContextInitializer@2df3b89c - No custom configurators were discovered as a service.
+05:50:58,796 |-INFO in ch.qos.logback.classic.util.ContextInitializer@2df3b89c - Trying to configure with ch.qos.logback.classic.joran.SerializedModelConfigurator
+05:50:58,800 |-INFO in ch.qos.logback.classic.util.ContextInitializer@2df3b89c - Constructed configurator of type class ch.qos.logback.classic.joran.SerializedModelConfigurator
+05:50:58,852 |-INFO in ch.qos.logback.classic.LoggerContext[default] - Could NOT find resource [logback-test.scmo]
+05:50:58,855 |-INFO in ch.qos.logback.classic.LoggerContext[default] - Could NOT find resource [logback.scmo]
+05:50:59,060 |-INFO in ch.qos.logback.classic.util.ContextInitializer@2df3b89c - ch.qos.logback.classic.joran.SerializedModelConfigurator.configure() call lasted 55 milliseconds. ExecutionStatus=INVOKE_NEXT_IF_ANY
+05:50:59,060 |-INFO in ch.qos.logback.classic.util.ContextInitializer@2df3b89c - Trying to configure with ch.qos.logback.classic.util.DefaultJoranConfigurator
+05:50:59,070 |-INFO in ch.qos.logback.classic.util.ContextInitializer@2df3b89c - Constructed configurator of type class ch.qos.logback.classic.util.DefaultJoranConfigurator
+05:50:59,072 |-INFO in ch.qos.logback.classic.LoggerContext[default] - Could NOT find resource [logback-test.xml]
+05:50:59,212 |-INFO in ch.qos.logback.classic.LoggerContext[default] - Found resource [logback.xml] at [jar:file:/opt/s3proxy/s3proxy!/logback.xml]
+05:50:59,274 |-INFO in ch.qos.logback.core.joran.spi.ConfigurationWatchList@23348b5d - URL [jar:file:/opt/s3proxy/s3proxy!/logback.xml] is not of type file
+05:51:00,321 |-INFO in ch.qos.logback.classic.model.processor.ConfigurationModelHandlerFull - Main configuration file URL: jar:file:/opt/s3proxy/s3proxy!/logback.xml
+05:51:00,324 |-INFO in ch.qos.logback.classic.model.processor.ConfigurationModelHandlerFull - FileWatchList= {}
+05:51:00,324 |-INFO in ch.qos.logback.classic.model.processor.ConfigurationModelHandlerFull - URLWatchList= {}
+05:51:00,342 |-INFO in ch.qos.logback.core.model.processor.ModelInterpretationContext@70325e14 - value "STDOUT" substituted for "${LOG_APPENDER:-STDOUT}"
+05:51:00,356 |-INFO in ch.qos.logback.core.model.processor.AppenderModelHandler - Processing appender named [STDOUT]
+05:51:00,357 |-INFO in ch.qos.logback.core.model.processor.AppenderModelHandler - About to instantiate appender of type [ch.qos.logback.core.ConsoleAppender]
+05:51:00,388 |-INFO in ch.qos.logback.core.model.processor.ImplicitModelHandler - Assuming default type [ch.qos.logback.classic.encoder.PatternLayoutEncoder] for [encoder] property
+05:51:00,613 |-INFO in ch.qos.logback.core.model.processor.ModelInterpretationContext@70325e14 - value "info" substituted for "${LOG_LEVEL:-info}"
+05:51:00,613 |-INFO in ch.qos.logback.core.ConsoleAppender[STDOUT] - NOTE: Writing to the console can be slow. Try to avoid logging to the 
+05:51:00,613 |-INFO in ch.qos.logback.core.ConsoleAppender[STDOUT] - console in production environments, especially in high volume systems.
+05:51:00,613 |-INFO in ch.qos.logback.core.ConsoleAppender[STDOUT] - See also https://logback.qos.ch/codes.html#slowConsole
+05:51:00,617 |-WARN in ch.qos.logback.core.model.processor.AppenderModelHandler - Appender named [CONTAINER] not referenced. Skipping further processing.
+05:51:00,621 |-INFO in ch.qos.logback.core.model.processor.ModelInterpretationContext@70325e14 - value "info" substituted for "${JETTY_LOG_LEVEL:-info}"
+05:51:00,676 |-INFO in ch.qos.logback.classic.model.processor.LoggerModelHandler - Setting level of logger [org.eclipse.jetty] to INFO
+05:51:00,677 |-INFO in ch.qos.logback.core.model.processor.ModelInterpretationContext@70325e14 - value "info" substituted for "${JETTY_LOG_LEVEL:-info}"
+05:51:00,677 |-INFO in ch.qos.logback.classic.model.processor.LoggerModelHandler - Setting level of logger [org.gaul.shaded.org.eclipse.jetty] to INFO
+05:51:00,677 |-INFO in ch.qos.logback.core.model.processor.ModelInterpretationContext@70325e14 - value "info" substituted for "${LOG_LEVEL:-info}"
+05:51:00,680 |-INFO in ch.qos.logback.classic.model.processor.RootLoggerModelHandler - Setting level of ROOT logger to INFO
+05:51:00,680 |-INFO in ch.qos.logback.core.model.processor.ModelInterpretationContext@70325e14 - value "STDOUT" substituted for "${LOG_APPENDER:-STDOUT}"
+05:51:00,686 |-INFO in ch.qos.logback.core.model.processor.AppenderRefModelHandler - Attaching appender named [STDOUT] to Logger[ROOT]
+05:51:00,688 |-INFO in ch.qos.logback.core.model.processor.DefaultProcessor@37ceb1df - End of configuration.
+05:51:00,690 |-INFO in ch.qos.logback.classic.joran.JoranConfigurator@7c9d8e2 - Registering current configuration as safe fallback point
+05:51:00,690 |-INFO in ch.qos.logback.classic.util.ContextInitializer@2df3b89c - ch.qos.logback.classic.util.DefaultJoranConfigurator.configure() call lasted 1620 milliseconds. ExecutionStatus=DO_NOT_INVOKE_NEXT_IF_ANY
+
+[s3proxy] W 04-04 05:51:02.809 main org.gaul.s3proxy.Main:130 |::] filesystem storage backend deprecated -- please use filesystem-nio2 instead
+[s3proxy] I 04-04 05:51:02.839 main o.g.s.CrossOriginResourceSharing:111 |::] CORS allowed origins: []
+[s3proxy] I 04-04 05:51:02.843 main o.g.s.CrossOriginResourceSharing:112 |::] CORS allowed methods: []
+[s3proxy] I 04-04 05:51:02.844 main o.g.s.CrossOriginResourceSharing:113 |::] CORS allowed headers: []
+[s3proxy] I 04-04 05:51:02.845 main o.g.s.CrossOriginResourceSharing:114 |::] CORS exposed headers: []
+[s3proxy] I 04-04 05:51:02.846 main o.g.s.CrossOriginResourceSharing:115 |::] CORS allow credentials: 
+[s3proxy] I 04-04 05:51:03.254 main o.g.s.o.e.jetty.server.Server:384 |::] jetty-11.0.26; built: 2025-08-14T18:03:14.457Z; git: 7559873b6e46eea7c2c6da2b58327ea2ecf941f4; jvm 11.0.30-internal+0-wolfi-r0
+[s3proxy] I 04-04 05:51:04.028 main o.g.s.o.e.j.s.AbstractConnector:376 |::] Started ServerConnector@184dbacc{HTTP/1.1, (http/1.1)}{0.0.0.0:9000}
+[s3proxy] I 04-04 05:51:04.124 main o.g.s.o.e.j.u.s.SslContextFactory:327 |::] x509=X509@623dcf2a(jetty,h=[unknown],a=[],w=[]) for Server@3804a9a8[provider=null,keyStore=file:///opt/s3proxy/test-classes/keystore.jks,trustStore=null]
+[s3proxy] I 04-04 05:51:04.305 main o.g.s.o.e.j.s.AbstractConnector:376 |::] Started ServerConnector@7c1c5936{SSL, (ssl, http/1.1)}{0.0.0.0:9443}
+[s3proxy] I 04-04 05:51:04.387 main o.g.s.o.e.jetty.server.Server:439 |::] Started Server@25d2f66{STARTING}[11.0.26,sto=0] @7323ms
+mkdir: can't create directory '/var/opt/sourcegraph/blobstore': File exists
+18:18:59,424 |-INFO in ch.qos.logback.classic.LoggerContext[default] - This is logback-classic version 2.8.0
+18:18:59,432 |-INFO in ch.qos.logback.classic.util.ContextInitializer@2df3b89c - No custom configurators were discovered as a service.
+18:18:59,433 |-INFO in ch.qos.logback.classic.util.ContextInitializer@2df3b89c - Trying to configure with ch.qos.logback.classic.joran.SerializedModelConfigurator
+18:18:59,445 |-INFO in ch.qos.logback.classic.util.ContextInitializer@2df3b89c - Constructed configurator of type class ch.qos.logback.classic.joran.SerializedModelConfigurator
+18:18:59,520 |-INFO in ch.qos.logback.classic.LoggerContext[default] - Could NOT find resource [logback-test.scmo]
+18:18:59,523 |-INFO in ch.qos.logback.classic.LoggerContext[default] - Could NOT find resource [logback.scmo]
+18:18:59,824 |-INFO in ch.qos.logback.classic.util.ContextInitializer@2df3b89c - ch.qos.logback.classic.joran.SerializedModelConfigurator.configure() call lasted 82 milliseconds. ExecutionStatus=INVOKE_NEXT_IF_ANY
+18:18:59,824 |-INFO in ch.qos.logback.classic.util.ContextInitializer@2df3b89c - Trying to configure with ch.qos.logback.classic.util.DefaultJoranConfigurator
+18:18:59,854 |-INFO in ch.qos.logback.classic.util.ContextInitializer@2df3b89c - Constructed configurator of type class ch.qos.logback.classic.util.DefaultJoranConfigurator
+18:18:59,869 |-INFO in ch.qos.logback.classic.LoggerContext[default] - Could NOT find resource [logback-test.xml]
+18:18:59,996 |-INFO in ch.qos.logback.classic.LoggerContext[default] - Found resource [logback.xml] at [jar:file:/opt/s3proxy/s3proxy!/logback.xml]
+18:19:00,117 |-INFO in ch.qos.logback.core.joran.spi.ConfigurationWatchList@23348b5d - URL [jar:file:/opt/s3proxy/s3proxy!/logback.xml] is not of type file
+18:19:01,484 |-INFO in ch.qos.logback.classic.model.processor.ConfigurationModelHandlerFull - Main configuration file URL: jar:file:/opt/s3proxy/s3proxy!/logback.xml
+18:19:01,492 |-INFO in ch.qos.logback.classic.model.processor.ConfigurationModelHandlerFull - FileWatchList= {}
+18:19:01,494 |-INFO in ch.qos.logback.classic.model.processor.ConfigurationModelHandlerFull - URLWatchList= {}
+18:19:01,521 |-INFO in ch.qos.logback.core.model.processor.ModelInterpretationContext@70325e14 - value "STDOUT" substituted for "${LOG_APPENDER:-STDOUT}"
+18:19:01,531 |-INFO in ch.qos.logback.core.model.processor.AppenderModelHandler - Processing appender named [STDOUT]
+18:19:01,531 |-INFO in ch.qos.logback.core.model.processor.AppenderModelHandler - About to instantiate appender of type [ch.qos.logback.core.ConsoleAppender]
+18:19:01,546 |-INFO in ch.qos.logback.core.model.processor.ImplicitModelHandler - Assuming default type [ch.qos.logback.classic.encoder.PatternLayoutEncoder] for [encoder] property
+18:19:01,737 |-INFO in ch.qos.logback.core.model.processor.ModelInterpretationContext@70325e14 - value "info" substituted for "${LOG_LEVEL:-info}"
+18:19:01,737 |-INFO in ch.qos.logback.core.ConsoleAppender[STDOUT] - NOTE: Writing to the console can be slow. Try to avoid logging to the 
+18:19:01,737 |-INFO in ch.qos.logback.core.ConsoleAppender[STDOUT] - console in production environments, especially in high volume systems.
+18:19:01,737 |-INFO in ch.qos.logback.core.ConsoleAppender[STDOUT] - See also https://logback.qos.ch/codes.html#slowConsole
+18:19:01,738 |-WARN in ch.qos.logback.core.model.processor.AppenderModelHandler - Appender named [CONTAINER] not referenced. Skipping further processing.
+18:19:01,741 |-INFO in ch.qos.logback.core.model.processor.ModelInterpretationContext@70325e14 - value "info" substituted for "${JETTY_LOG_LEVEL:-info}"
+18:19:01,786 |-INFO in ch.qos.logback.classic.model.processor.LoggerModelHandler - Setting level of logger [org.eclipse.jetty] to INFO
+18:19:01,786 |-INFO in ch.qos.logback.core.model.processor.ModelInterpretationContext@70325e14 - value "info" substituted for "${JETTY_LOG_LEVEL:-info}"
+18:19:01,786 |-INFO in ch.qos.logback.classic.model.processor.LoggerModelHandler - Setting level of logger [org.gaul.shaded.org.eclipse.jetty] to INFO
+18:19:01,786 |-INFO in ch.qos.logback.core.model.processor.ModelInterpretationContext@70325e14 - value "info" substituted for "${LOG_LEVEL:-info}"
+18:19:01,786 |-INFO in ch.qos.logback.classic.model.processor.RootLoggerModelHandler - Setting level of ROOT logger to INFO
+18:19:01,786 |-INFO in ch.qos.logback.core.model.processor.ModelInterpretationContext@70325e14 - value "STDOUT" substituted for "${LOG_APPENDER:-STDOUT}"
+18:19:01,787 |-INFO in ch.qos.logback.core.model.processor.AppenderRefModelHandler - Attaching appender named [STDOUT] to Logger[ROOT]
+18:19:01,788 |-INFO in ch.qos.logback.core.model.processor.DefaultProcessor@37ceb1df - End of configuration.
+18:19:01,791 |-INFO in ch.qos.logback.classic.joran.JoranConfigurator@7c9d8e2 - Registering current configuration as safe fallback point
+18:19:01,791 |-INFO in ch.qos.logback.classic.util.ContextInitializer@2df3b89c - ch.qos.logback.classic.util.DefaultJoranConfigurator.configure() call lasted 1937 milliseconds. ExecutionStatus=DO_NOT_INVOKE_NEXT_IF_ANY
+
+[s3proxy] W 04-13 18:19:05.036 main org.gaul.s3proxy.Main:130 |::] filesystem storage backend deprecated -- please use filesystem-nio2 instead
+[s3proxy] I 04-13 18:19:05.056 main o.g.s.CrossOriginResourceSharing:111 |::] CORS allowed origins: []
+[s3proxy] I 04-13 18:19:05.058 main o.g.s.CrossOriginResourceSharing:112 |::] CORS allowed methods: []
+[s3proxy] I 04-13 18:19:05.058 main o.g.s.CrossOriginResourceSharing:113 |::] CORS allowed headers: []
+[s3proxy] I 04-13 18:19:05.059 main o.g.s.CrossOriginResourceSharing:114 |::] CORS exposed headers: []
+[s3proxy] I 04-13 18:19:05.060 main o.g.s.CrossOriginResourceSharing:115 |::] CORS allow credentials: 
+[s3proxy] I 04-13 18:19:05.528 main o.g.s.o.e.jetty.server.Server:384 |::] jetty-11.0.26; built: 2025-08-14T18:03:14.457Z; git: 7559873b6e46eea7c2c6da2b58327ea2ecf941f4; jvm 11.0.30-internal+0-wolfi-r0
+[s3proxy] I 04-13 18:19:05.702 main o.g.s.o.e.j.s.AbstractConnector:376 |::] Started ServerConnector@6c8909c3{HTTP/1.1, (http/1.1)}{0.0.0.0:9000}
+[s3proxy] I 04-13 18:19:05.830 main o.g.s.o.e.j.u.s.SslContextFactory:327 |::] x509=X509@6edcad64(jetty,h=[unknown],a=[],w=[]) for Server@2eae4349[provider=null,keyStore=file:///opt/s3proxy/test-classes/keystore.jks,trustStore=null]
+[s3proxy] I 04-13 18:19:05.916 main o.g.s.o.e.j.s.AbstractConnector:376 |::] Started ServerConnector@30d25c03{SSL, (ssl, http/1.1)}{0.0.0.0:9443}
+[s3proxy] I 04-13 18:19:05.967 main o.g.s.o.e.jetty.server.Server:439 |::] Started Server@78c1372d{STARTING}[11.0.26,sto=0] @8457ms
