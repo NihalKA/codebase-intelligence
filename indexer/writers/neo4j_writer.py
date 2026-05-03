@@ -206,7 +206,7 @@ class Neo4jWriter:
 
         # -- RabbitMQ relationships ----------------------------------------
         if patterns.get("rabbitmq"):
-            self._write_queue_relationships(service_name, chunk_name)
+            self._write_queue_relationships(service_name, chunk_name, raw_code)
 
         # -- HTTP relationships (endpoints exposed + services called) --------
         if patterns.get("http"):
@@ -269,7 +269,7 @@ class Neo4jWriter:
     # ------------------------------------------------------------------
 
     def _write_queue_relationships(
-        self, service_name: str, method_name: str
+        self, service_name: str, method_name: str, raw_code: str = ""
     ) -> None:
         """
         Create Queue node and PUBLISHES_TO / CONSUMES_FROM relationships.
@@ -294,8 +294,16 @@ class Neo4jWriter:
         # require string-literal parsing which is not implemented in Phase 2.
         queue_name: str = f"{service_name}-queue"
 
+        # Check both method name AND raw code body — eShop-style Handle() methods
+        # carry publish/consume logic in the body, not the method name.
         is_publisher: bool = bool(_PUBLISH_PATTERN.search(method_name))
         is_consumer: bool = bool(_CONSUME_PATTERN.search(method_name))
+
+        # Also scan the raw code body — catches PublishAsync/eventBus.Publish in Handle().
+        if not is_publisher:
+            is_publisher = bool(_PUBLISH_PATTERN.search(raw_code))
+        if not is_consumer:
+            is_consumer = bool(_CONSUME_PATTERN.search(raw_code))
 
         if not is_publisher and not is_consumer:
             # Ambiguous — create both so no relationship is missed.

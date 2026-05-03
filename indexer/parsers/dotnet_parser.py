@@ -40,6 +40,14 @@ RABBITMQ_BODY: list[str] = [
     "BasicPublish",
     "EventingBasicConsumer",
     "IRabbitMQService",
+    # eShop / MassTransit / NServiceBus style abstractions
+    "IEventBus",
+    "PublishAsync",
+    "IntegrationEvent",
+    "IIntegrationEventHandler",
+    "IPublishEndpoint",
+    "IBus",
+    "IMessageBroker",
 ]
 HTTP_BODY: list[str] = [
     "HttpClient",
