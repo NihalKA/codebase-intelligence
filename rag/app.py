@@ -286,6 +286,22 @@ async def stats() -> dict:
     return result
 
 
+@app.get("/v1/models")
+async def list_models() -> dict:
+    """OpenAI-compatible model list endpoint required by Open WebUI model discovery."""
+    return {
+        "object": "list",
+        "data": [
+            {
+                "id": "codebase",
+                "object": "model",
+                "created": 1700000000,
+                "owned_by": "codebase-intelligence",
+            }
+        ],
+    }
+
+
 @app.post("/v1/chat/completions", response_model=ChatResponse)
 async def openai_compat(request: ChatRequest) -> ChatResponse:
     """
