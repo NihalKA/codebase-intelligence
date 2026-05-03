@@ -335,6 +335,19 @@ async def openai_compat(request: ChatRequest) -> ChatResponse:
         raise HTTPException(status_code=500, detail=str(exc))
 
     created_ts = int(time.time())
+    # Build rich content — answer + sources block so Open WebUI shows the
+    # same evidence trail as the bash demo script.
+    content = result["answer"]
+
+    sources = result.get("sources", [])
+    if sources:
+        content += "\n\n**Sources:**"
+        for s in sources:
+            content += f"\n- `{s['repo']}` → `{s['file']}` (lines {s['lines']})"
+
+    if result.get("graph_context_used"):
+        content += "\n\n_Service dependency graph also used._"
+
     return ChatResponse(
         id=f"chatcmpl-{created_ts}",
         object="chat.completion",
@@ -345,7 +358,7 @@ async def openai_compat(request: ChatRequest) -> ChatResponse:
                 index=0,
                 message=ChatMessage(
                     role="assistant",
-                    content=result["answer"],
+                    content=content,
                 ),
                 finish_reason="stop",
             )
