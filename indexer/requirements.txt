@@ -49,3 +49,5 @@ requests>=2.31.0,<3.0.0
 python-dotenv>=1.0.0,<2.0.0
 # gitpython — used by index_diff.py to detect changed files from git diff
 gitpython>=3.1.0,<4.0.0
+# minio — used by generate_docs.py to upload service docs to MinIO (bucket: service-docs)
+minio>=7.2.0,<8.0.0
