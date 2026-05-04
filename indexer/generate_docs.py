@@ -523,29 +523,41 @@ def _render_overview(
     lines.append("")
     lines.append(
         f"> Auto-generated on {generated_at}. "
-        "Shows all detected cross-service CALLS relationships."
+        "Shows detected service-to-service and queue relationships."
     )
     lines.append("")
 
-    # Build edge list and track which services appear in the diagram.
+    # Build edge list — include CALLS, PUBLISHES_TO, and CONSUMES_FROM.
     edges: list[str] = []
     connected: set[str] = set()
 
     for svc in all_services:
         name = svc["name"]
         detail = all_details.get(name, {})
+        src = name.replace(" ", "-").replace(".", "-")
+
+        # Service → Service (direct HTTP calls)
         for target in detail.get("calls", []):
-            # Sanitise names: Mermaid node IDs cannot contain spaces or dots.
-            src = name.replace(" ", "-").replace(".", "-")
             tgt = target.replace(" ", "-").replace(".", "-")
-            edges.append(f"  {src} --> {tgt}")
+            edges.append(f"  {src} -->|calls| {tgt}")
             connected.add(name)
             connected.add(target)
+
+        # Service → Queue (publishes)
+        for queue in detail.get("publishes_to", []):
+            q = queue.replace(" ", "-").replace(".", "-")
+            edges.append(f"  {src} -->|publishes| {q}([{queue}])")
+            connected.add(name)
+
+        # Queue → Service (consumes) — rendered as service consuming from queue
+        for queue in detail.get("consumes_from", []):
+            q = queue.replace(" ", "-").replace(".", "-")
+            edges.append(f"  {q}([{queue}]) -->|consumed by| {src}")
+            connected.add(name)
 
     if edges:
         lines.append("```mermaid")
         lines.append("graph LR")
-        # Deduplicate edges while preserving first-seen order.
         seen: set[str] = set()
         for edge in edges:
             if edge not in seen:
@@ -553,17 +565,17 @@ def _render_overview(
                 lines.append(edge)
         lines.append("```")
     else:
-        lines.append("_No cross-service CALLS relationships detected yet._")
+        lines.append("_No cross-service relationships detected yet._")
 
-    # Services with no CALLS edges in either direction.
+    # Services with no relationships in either direction.
     all_names = {s["name"] for s in all_services}
     standalone = sorted(all_names - connected)
     if standalone:
         lines.append("")
         lines.append("## Standalone services")
         lines.append(
-            "These services have no detected CALLS relationships "
-            "(they may still use queues or databases):"
+            "These services have no detected relationships "
+            "(they may still use databases):"
         )
         lines.append("")
         for name in standalone:
